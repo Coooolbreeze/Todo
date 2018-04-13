@@ -1,0 +1,19 @@
+{
+  "name": "todo",
+  "version": "1.0.0",
+  "description": "vue+webpack实现的Todo应用",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Coooolbreeze/Todo.git"
+  },
+  "author": "Coooolbreeze",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Coooolbreeze/Todo/issues"
+  },
+  "homepage": "https://github.com/Coooolbreeze/Todo#readme"
+}
