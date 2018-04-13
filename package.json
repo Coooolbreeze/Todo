@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/Coooolbreeze/Todo/issues"
   },
-  "homepage": "https://github.com/Coooolbreeze/Todo#readme"
+  "homepage": "https://github.com/Coooolbreeze/Todo#readme",
+  "devDependencies": {
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14"
+  }
 }
