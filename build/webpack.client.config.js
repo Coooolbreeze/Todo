@@ -3,7 +3,7 @@ const HTMLPlugin = require('html-webpack-plugin')
 const webpack = require('webpack')
 const merge = require('webpack-merge')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const baseConfig = require('./webpack.config.base')
+const baseConfig = require('./webpack.base.config')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -14,7 +14,7 @@ const defaultPlugins = [
     }
   }),
   new HTMLPlugin({
-    template: path.join(__dirname, 'template.html')
+    template: path.join(__dirname, '../index.html')
   })
 ]
 
@@ -23,6 +23,9 @@ const devServer = {
   host: '0.0.0.0',
   overlay: {
     errors: true
+  },
+  historyApiFallback: {
+    index: '/index.html'
   },
   hot: true
 }
@@ -63,7 +66,7 @@ if (isDev) {
 } else {
   config = merge(baseConfig, {
     entry: {
-      app: path.join(__dirname, '../client/index.js')
+      app: path.join(__dirname, '../client/main.js')
     },
     output: {
       filename: '[name].[chunkhash:8].js'
