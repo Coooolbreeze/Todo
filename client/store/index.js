@@ -1,17 +1,22 @@
 import Vuex from 'vuex'
 
-import defaultState from './state'
 import mutations from './mutations'
 import getters from './getters'
 import actions from './actions'
-import text from './modules/text/store'
+import text from './modules/text'
 
 const isDev = process.env.NODE_ENV === 'development'
+
+const state = {
+  count: 0,
+  firstName: 'Cooool',
+  lastName: 'breeze'
+}
 
 export default _ => {
   const store = new Vuex.Store({
     strict: isDev,
-    state: defaultState,
+    state: state,
     mutations,
     getters,
     actions,
@@ -22,20 +27,17 @@ export default _ => {
 
   if (module.hot) {
     module.hot.accept([
-      './state',
       './mutations',
       './getters',
       './actions',
-      './modules/text/store'
+      './modules/text'
     ], _ => {
-      const newState = require('./state').default
       const newMutations = require('./mutations').default
       const newGetters = require('./getters').default
       const newActions = require('./actions').default
-      const newText = require('./modules/text/store').default
+      const newText = require('./modules/text').default
 
       store.hotUpdate({
-        state: newState,
         mutations: newMutations,
         getters: newGetters,
         actions: newActions,
