@@ -2,8 +2,6 @@
   <div :id="$style.app">
     <div :id="$style.cover"></div>
     <the-header />
-    <router-link to="app">app</router-link>
-    <router-link to="login">login</router-link>
     <router-view />
     <the-footer />
   </div>
