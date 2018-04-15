@@ -3,6 +3,7 @@
     <div :id="$style.cover"></div>
     <the-header />
     <p>{{fullName}} {{count}}</p>
+    <p>{{text}} {{textPlus}}</p>
     <router-view />
     <the-footer />
   </div>
@@ -25,14 +26,37 @@ export default {
       num: 5,
       time: 2000
     })
+
+    this.updateText({
+      text: 3
+    })
+
+    this.updateTextAsync({
+      text: 10,
+      time: 1000
+    })
   },
   methods: {
-    ...mapMutations(['updateCount']),
-    ...mapActions(['updateCountAsync'])
+    ...mapMutations({
+      updateCount: 'updateCount',
+      updateText: 'text/updateText'
+    }),
+
+    ...mapActions({
+      updateCountAsync: 'updateCountAsync',
+      updateTextAsync: 'text/updateTextAsync'
+    })
   },
   computed: {
-    ...mapState(['count']),
-    ...mapGetters(['fullName'])
+    ...mapState({
+      count: 'count',
+      text: state => state.text.text
+    }),
+
+    ...mapGetters({
+      fullName: 'fullName',
+      textPlus: 'text/textPlus'
+    })
   }
 }
 </script>
