@@ -1,6 +1,3 @@
-import TheTodo from '../components/TheTodo.vue'
-import TheLogin from '../components/TheLogin.vue'
-
 export default [
   {
     path: '/',
@@ -8,7 +5,7 @@ export default [
   },
   {
     path: '/app',
-    component: TheTodo,
+    component: _ => import('../components/TheTodo.vue'),
     name: 'app',
     meta: {
       title: 'this is app',
@@ -17,6 +14,6 @@ export default [
   },
   {
     path: '/login',
-    component: TheLogin
+    component: _ => import('../components/TheLogin.vue')
   }
 ]
