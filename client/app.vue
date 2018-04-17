@@ -4,6 +4,8 @@
     <the-header />
     <p>{{fullName}} {{count}}</p>
     <p>{{text}} {{textPlus}}</p>
+    <router-link to="/app">app</router-link>
+    <router-link to="/login">login</router-link>
     <router-view />
     <the-footer />
   </div>
@@ -16,6 +18,9 @@ import TheTodo from './components/TheTodo.vue'
 import TheFooter from './components/TheFooter.jsx'
 
 export default {
+  metaInfo: {
+    title: "Cooolbreeze's Todo App"
+  },
   components: {
     TheHeader,
     TheTodo,

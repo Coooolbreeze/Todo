@@ -4,6 +4,7 @@ const webpack = require('webpack')
 const merge = require('webpack-merge')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const baseConfig = require('./webpack.base.config')
+const VueClientPlugin = require('vue-server-renderer/client-plugin')
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -15,7 +16,8 @@ const defaultPlugins = [
   }),
   new HTMLPlugin({
     template: path.join(__dirname, '../index.html')
-  })
+  }),
+  new VueClientPlugin()
 ]
 
 const devServer = {
@@ -25,7 +27,7 @@ const devServer = {
     errors: true
   },
   historyApiFallback: {
-    index: '/index.html'
+    index: '/public/index.html'
   },
   hot: true
 }
@@ -66,10 +68,11 @@ if (isDev) {
 } else {
   config = merge(baseConfig, {
     entry: {
-      app: path.join(__dirname, '../client/main.js')
+      app: path.join(__dirname, '../client/client-entry.js')
     },
     output: {
-      filename: '[name].[chunkhash:8].js'
+      filename: '[name].[chunkhash:8].js',
+      publicPath: '/public/'
     },
     module: {
       rules: [

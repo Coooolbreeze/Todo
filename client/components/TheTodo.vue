@@ -29,6 +29,9 @@ import TodoTabs from './TodoTabs.vue'
 let id = 1
 
 export default {
+  metaInfo: {
+    title: 'The Todo App'
+  },
   data () {
     return {
       todos: [],

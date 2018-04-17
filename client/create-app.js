@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
+import Meta from 'vue-meta'
 
 import App from './App.vue'
 import createRouter from './router/index'
@@ -10,12 +11,17 @@ import './assets/styles/global.styl'
 
 Vue.use(VueRouter)
 Vue.use(Vuex)
+Vue.use(Meta)
 
-const router = createRouter()
-const store = createStore()
+export default () => {
+  const router = createRouter()
+  const store = createStore()
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#root')
+  const app = new Vue({
+    router,
+    store,
+    render: h => h(App)
+  })
+
+  return { app, router, store }
+}
