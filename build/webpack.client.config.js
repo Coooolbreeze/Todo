@@ -27,7 +27,7 @@ const devServer = {
     errors: true
   },
   historyApiFallback: {
-    index: '/public/index.html'
+    index: '/index.html'
   },
   hot: true
 }
@@ -72,7 +72,7 @@ if (isDev) {
     },
     output: {
       filename: '[name].[chunkhash:8].js',
-      publicPath: '/public/'
+      publicPath: '/dist/'
     },
     module: {
       rules: [

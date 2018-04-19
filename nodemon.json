@@ -6,7 +6,7 @@
     ".eslintrc",
     "client",
     "build/webpack.client.config.js",
-    "public",
+    "dist",
     "server-build"
   ],
   "verbose": true,
