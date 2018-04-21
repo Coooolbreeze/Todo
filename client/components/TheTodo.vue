@@ -1,5 +1,18 @@
 <template>
   <section :class="$style.todo">
+    <div :class="$style['tab-container']">
+      <tabs
+        :value="filter"
+        @change="handleChangeTab"
+      >
+        <tab
+          v-for="tab in states"
+          :key="tab"
+          :label="tab"
+          :index="tab"
+        />
+      </tabs>
+    </div>
     <input
       type="text"
       :class="$style.add"
@@ -13,10 +26,9 @@
       :key="todo.id"
       @del="deleteTodo"
     />
-    <todo-tabs
+    <todo-helper
       :filter="filter"
       :todos="todos"
-      @toggle="toggleFilter"
       @clearAllCompleted="clearAllCompleted"
     />
   </section>
@@ -24,7 +36,7 @@
 
 <script>
 import TodoItem from './TodoItem.vue'
-import TodoTabs from './TodoTabs.vue'
+import TodoHelper from './TodoHelper.vue'
 
 let id = 1
 
@@ -35,12 +47,13 @@ export default {
   data () {
     return {
       todos: [],
-      filter: 'all'
+      filter: 'all',
+      states: ['all', 'active', 'completed']
     }
   },
   components: {
     TodoItem,
-    TodoTabs
+    TodoHelper
   },
   computed: {
     filteredTodos () {
@@ -61,11 +74,11 @@ export default {
     deleteTodo (id) {
       this.todos.splice(this.todos.findIndex(todo => todo.id === id), 1)
     },
-    toggleFilter (state) {
-      this.filter = state
-    },
     clearAllCompleted () {
       this.todos = this.todos.filter(todo => !todo.completed)
+    },
+    handleChangeTab (value) {
+      this.filter = value
     }
   }
 }
@@ -96,5 +109,10 @@ export default {
   padding: 16px 16px 16px 60px;
   border: none;
   box-shadow: inset 0 -2px 1px rgba(0, 0, 0, 0.06);
+}
+
+.tab-container {
+  background-color #ffffff
+  padding 0 15px
 }
 </style>

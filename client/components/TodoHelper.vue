@@ -1,16 +1,6 @@
 <template>
   <div :class="$style.helper">
     <span :class="$style.left">{{unFinishedTodoLength}} items left</span>
-    <span :class="$style.tabs">
-      <span
-        v-for="state in states"
-        :key="state"
-        :class="[$style[state], filter === state ? $style.actived : '']"
-        @click="toggleFilter(state)"
-      >
-        {{state}}
-      </span>
-    </span>
     <span :class="$style.clear" @click="clearAllCompleted">Clear Completed</span>
   </div>
 </template>
@@ -18,18 +8,9 @@
 <script>
 export default {
   props: {
-    filter: {
-      type: String,
-      required: true
-    },
     todos: {
       type: Array,
       required: true
-    }
-  },
-  data () {
-    return {
-      states: ['all', 'active', 'completed']
     }
   },
   computed: {
@@ -40,9 +21,6 @@ export default {
   methods: {
     clearAllCompleted () {
       this.$emit('clearAllCompleted')
-    },
-    toggleFilter (state) {
-      this.$emit('toggle', state)
     }
   }
 }
@@ -59,12 +37,9 @@ export default {
   font-size: 14px;
 }
 
-.left, .clear, .tabs {
+.left, .clear {
   padding: 0 10px;
   box-sizing: border-box;
-}
-
-.left, .clear {
   width: 150px;
 }
 
@@ -75,23 +50,5 @@ export default {
 .clear {
   text-align: right;
   cursor: pointer;
-}
-
-.tabs {
-  width: 200px;
-  display: flex;
-  justify-content: space-around;
-
-  * {
-    display: inline-block;
-    padding: 0 10px;
-    cursor: pointer;
-    border: 1px solid rgba(175, 47, 47, 0);
-
-    &.actived {
-      border-color: rgba(175, 47, 47, 0.4);
-      border-radius: 5px;
-    }
-  }
 }
 </style>
