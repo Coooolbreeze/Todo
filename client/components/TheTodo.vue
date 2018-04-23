@@ -18,35 +18,37 @@
       :class="$style.add"
       placeholder="接下去做什么？"
       autofocus
-      @keyup.enter="addTodo"
+      @keyup.enter="handleAdd"
     >
     <todo-item
       v-for="todo in filteredTodos"
       :todo="todo"
       :key="todo.id"
       @del="deleteTodo"
+      @toggle="toggleTodoState"
     />
     <todo-helper
       :filter="filter"
       :todos="todos"
-      @clearAllCompleted="clearAllCompleted"
+      @clearAllCompleted="deleteAllCompleted"
     />
   </section>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import TodoItem from './TodoItem.vue'
 import TodoHelper from './TodoHelper.vue'
-
-let id = 1
 
 export default {
   metaInfo: {
     title: 'The Todo App'
   },
+  mounted () {
+    this.fetchTodos()
+  },
   data () {
     return {
-      todos: [],
       filter: 'all',
       states: ['all', 'active', 'completed']
     }
@@ -56,6 +58,7 @@ export default {
     TodoHelper
   },
   computed: {
+    ...mapState(['todos']),
     filteredTodos () {
       if (this.filter === 'all') return this.todos
       const completed = this.filter === 'completed'
@@ -63,19 +66,29 @@ export default {
     }
   },
   methods: {
-    addTodo (e) {
-      this.todos.unshift({
-        id: id++,
-        content: e.target.value.trim(),
+    ...mapActions(['fetchTodos', 'addTodo', 'updateTodo', 'deleteTodo', 'deleteAllCompleted']),
+    handleAdd (e) {
+      const content = e.target.value.trim()
+      if (!content) {
+        this.$notify({
+          content: '必须输入要做的内容'
+        })
+        return
+      }
+      const todo = {
+        content,
         completed: false
-      })
+      }
+      this.addTodo(todo)
       e.target.value = ''
     },
-    deleteTodo (id) {
-      this.todos.splice(this.todos.findIndex(todo => todo.id === id), 1)
-    },
-    clearAllCompleted () {
-      this.todos = this.todos.filter(todo => !todo.completed)
+    toggleTodoState (todo) {
+      this.updateTodo({
+        id: todo.id,
+        todo: Object.assign({}, todo, {
+          completed: !todo.completed
+        })
+      })
     },
     handleChangeTab (value) {
       this.filter = value
@@ -112,7 +125,7 @@ export default {
 }
 
 .tab-container {
-  background-color #ffffff
-  padding 0 15px
+  background-color: #ffffff;
+  padding: 0 15px;
 }
 </style>

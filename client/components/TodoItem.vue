@@ -1,13 +1,22 @@
 <template>
-  <div :class="[$style.item, todo.completed ? $style.completed : '']">
-    <input
-      type="checkbox"
-      :class="$style.toggle"
-      v-model="todo.completed"
-    >
-    <label>{{todo.content}}</label>
-    <button :class="$style.destory" @click="deleteTodo"></button>
-  </div>
+  <transition
+    name="fade"
+    :enter-active-class="$style['fade-enter-active']"
+    :leave-active-class="$style['fade-leave-active']"
+    :enter-class="$style['fade-enter']"
+    :leave-to-class="$style['fade-leave-to']"
+  >
+    <div :class="[$style.item, todo.completed ? $style.completed : '']">
+      <input
+        type="checkbox"
+        :class="$style.toggle"
+        :checked="todo.completed"
+        @click="handleToggle"
+      >
+      <label>{{todo.content}}</label>
+      <button :class="$style.destory" @click="deleteTodo"></button>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -21,6 +30,10 @@ export default {
   methods: {
     deleteTodo () {
       this.$emit('del', this.todo.id)
+    },
+    handleToggle (e) {
+      e.preventDefault()
+      this.$emit('toggle', this.todo)
     }
   }
 }
@@ -98,5 +111,14 @@ export default {
   border-width: 0;
   cursor: pointer;
   outline: none;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: all .5s ease;
+}
+
+.fade-enter, .fade-leave-to {
+  transform: translateX(500px);
+  opacity: 0;
 }
 </style>

@@ -8,20 +8,19 @@ import text from './modules/text'
 const isDev = process.env.NODE_ENV === 'development'
 
 const state = {
-  count: 0,
-  firstName: 'Cooool',
-  lastName: 'breeze'
+  todos: [],
+  loading: false
 }
 
 export default _ => {
   const store = new Vuex.Store({
     strict: isDev,
-    state: state,
+    state,
     mutations,
     getters,
     actions,
     modules: {
-      text: text
+      text
     }
   })
 

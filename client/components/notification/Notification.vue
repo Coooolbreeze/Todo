@@ -15,7 +15,7 @@
       @mouseleave="createTimer"
     >
       <span :class="$style.content">{{content}}</span>
-      <a :class="$style.btn" @click="handleClose">{{btn || '关闭'}}</a>
+      <a :class="$style.btn" @click="handleClose">{{btn}}</a>
     </div>
   </transition>
 </template>
