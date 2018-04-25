@@ -5,14 +5,11 @@ const path = require('path')
 const ossConfig = require('../app.config').oss
 
 const {
-  accessKeyId, accessKeySecret, bucket
+  region, accessKeyId, accessKeySecret, bucket
 } = ossConfig
 
 const client = new OSS.Wrapper({
-  region: 'oss-cn-shanghai',
-  accessKeyId,
-  accessKeySecret,
-  bucket
+  region, accessKeyId, accessKeySecret, bucket
 })
 
 const doUpload = (key, file) => {
