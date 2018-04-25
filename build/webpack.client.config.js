@@ -5,6 +5,7 @@ const merge = require('webpack-merge')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const baseConfig = require('./webpack.base.config')
 const VueClientPlugin = require('vue-server-renderer/client-plugin')
+const ossConfig = require('../app.config').oss
 
 const isDev = process.env.NODE_ENV === 'development'
 
@@ -73,7 +74,7 @@ if (isDev) {
     },
     output: {
       filename: '[name].[chunkhash:8].js',
-      publicPath: '/dist/'
+      publicPath: ossConfig.host
     },
     module: {
       rules: [
