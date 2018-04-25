@@ -108,9 +108,16 @@ if (isDev) {
     plugins: defaultPlugins.concat([
       new MiniCssExtractPlugin({
         chunkFilename: 'style.[contenthash:8].css'
-      })
+      }),
+      new webpack.NamedChunksPlugin()
     ])
   })
+}
+
+config.resolve = {
+  alias: {
+    'model': path.join(__dirname, '../client/model/client-model.js')
+  }
 }
 
 module.exports = config

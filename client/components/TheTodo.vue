@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 import TodoItem from './TodoItem.vue'
 import TodoHelper from './TodoHelper.vue'
 
@@ -45,7 +45,18 @@ export default {
     title: 'The Todo App'
   },
   mounted () {
-    this.fetchTodos()
+    if (this.todos && this.todos.length < 1) {
+      this.fetchTodos()
+    }
+  },
+  asyncData ({ store, router }) {
+    if (store.state.token) {
+      return store.dispatch('fetchTodos')
+    }
+    if (!store.state.refresh_token) {
+      router.replace('/login')
+    }
+    return Promise.resolve()
   },
   data () {
     return {
@@ -66,6 +77,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['saveToken']),
     ...mapActions(['fetchTodos', 'addTodo', 'updateTodo', 'deleteTodo', 'deleteAllCompleted']),
     handleAdd (e) {
       const content = e.target.value.trim()

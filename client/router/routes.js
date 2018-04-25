@@ -5,7 +5,7 @@ export default [
   },
   {
     path: '/app',
-    component: _ => import('../components/TheTodo.vue'),
+    component: _ => import(/* webpackChunkName: "todo-view" */'../components/TheTodo.vue'),
     name: 'app',
     meta: {
       title: 'this is app',
@@ -14,6 +14,6 @@ export default [
   },
   {
     path: '/login',
-    component: _ => import('../components/TheLogin.vue')
+    component: _ => import(/* webpackChunkName: "login-view" */'../components/TheLogin.vue')
   }
 ]

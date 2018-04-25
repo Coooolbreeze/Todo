@@ -1,6 +1,6 @@
 import axios from 'axios'
 import config from './config'
-import token from './token'
+import Token from './token'
 import notify from '../components/notification/function'
 import loading from '../components/loading/function'
 
@@ -8,15 +8,15 @@ const request = axios.create({
   baseURL: config.baseURL
 })
 
-const handleRequest = config => {
-  typeof config === 'string' && (config = {url: config})
+const handleRequest = params => {
+  typeof params === 'string' && (params = {url: params})
   return new Promise((resolve, reject) => {
     const close = loading()
     request({
-      url: config.url,
-      method: config.method ? config.method : 'GET',
-      headers: { token: token.get() },
-      data: config.data
+      url: params.url,
+      method: params.method || 'GET',
+      headers: { token: Token.get() },
+      data: params.data
     }).then(resp => {
       close()
       resolve(resp.data.data)
@@ -24,8 +24,8 @@ const handleRequest = config => {
       close()
       const resp = err.response
       if (resp.status === 401) {
-        token.refresh().then(_ => {
-          resolve(handleRequest(config))
+        Token.refresh().then(_ => {
+          resolve(handleRequest(params))
         })
       } else {
         console.log('--------------------', resp)

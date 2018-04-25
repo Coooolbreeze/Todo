@@ -29,7 +29,7 @@ app.use(async (ctx, next) => {
 
 app.use(staticRouter.routes()).use(staticRouter.allowedMethods())
 
-const pageRouter = require(isDev ? './routers/dev-ssr' : './routers/ssr')
+const pageRouter = require(isDev ? './routers/dev-ssr' : './routers/ssr-no-bundle')
 
 app.use(pageRouter.routes()).use(pageRouter.allowedMethods())
 

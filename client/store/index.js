@@ -8,8 +8,9 @@ import text from './modules/text'
 const isDev = process.env.NODE_ENV === 'development'
 
 const state = {
-  todos: [],
-  loading: false
+  token: null,
+  refresh_token: null,
+  todos: []
 }
 
 export default _ => {

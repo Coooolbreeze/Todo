@@ -16,10 +16,8 @@ let plugins = [
   })
 ]
 
-plugins.push(new VueServerPlugin())
-
 if (isDev) {
-
+  plugins.push(new VueServerPlugin())
 } else {
   plugins.push(new MiniCssExtractPlugin({
     filename: 'style.[contenthash:8].css'
@@ -33,7 +31,8 @@ config = merge(baseConfig, {
   output: {
     libraryTarget: 'commonjs2',
     filename: 'server-entry.js',
-    path: path.join(__dirname, '../server-build')
+    path: path.join(__dirname, '../server-build'),
+    publicPath: '/dist/'
   },
   externals: Object.keys(require('../package.json').dependencies),
   module: {
@@ -62,5 +61,11 @@ config = merge(baseConfig, {
   },
   plugins
 })
+
+config.resolve = {
+  alias: {
+    'model': path.join(__dirname, '../client/model/server-model.js')
+  }
+}
 
 module.exports = config

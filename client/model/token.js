@@ -3,33 +3,49 @@ import config from './config'
 import notify from '../components/notification/function'
 import bus from '../util/bus'
 
-let timestramp = Date.parse(new Date()) / 1000
+const setCookie = (name, value, expires) => {
+  let exp = new Date()
+  exp.setTime(exp.getTime() + expires * 1000)
+  document.cookie = `${name}=${escape(value)};expires=${exp.toGMTString()}`
+}
+
+const getCookie = name => {
+  if (!document.cookie) return ''
+  let start = document.cookie.indexOf(name + '=')
+  if (start === -1) return ''
+  start = start + name.length + 1
+  let end = document.cookie.indexOf(';', start)
+  if (end === -1) end = document.cookie.length
+  return document.cookie.substring(start, end)
+}
+
+const delCookie = name => {
+  let exp = new Date()
+  exp.setTime(exp.getTime() - 1)
+  let cval = getCookie(name)
+  if (cval != null) document.cookie = `${name}=${cval};expires=${exp.toGMTString()}`
+}
 
 export default {
-  get (key = 'access_token') {
-    const token = JSON.parse(window.localStorage.getItem('token'))
-    if (!token) {
-      return ''
-    }
-    if (key === 'access_token') {
-      return token.expire_in > timestramp ? token.access_token : ''
-    } else {
-      return token[key]
-    }
+  get (name = 'access_token') {
+    return getCookie(name)
   },
   set (data) {
-    data.expire_in = parseInt(data.expire_in) + parseInt(timestramp)
-    window.localStorage.setItem('token', JSON.stringify(data))
+    setCookie('access_token', data.access_token, data.expire_in)
+    setCookie('refresh_token', data.refresh_token, data.expire_in * 10)
   },
   delete () {
-    window.localStorage.removeItem('token')
+    delCookie('access_token')
+    delCookie('refresh_token')
   },
   refresh () {
     return new Promise((resolve, reject) => {
+      let token = this.get('refresh_token')
+      if (!token) return bus.$emit('auth')
       axios({
         baseURL: config.baseURL,
         url: '/refresh',
-        headers: { token: this.get('refresh_token') },
+        headers: { token },
         method: 'POST'
       }).then(resp => {
         this.set(resp.data.data)
